@@ -1,8 +1,6 @@
-
 /* ================= CONFIG ================= */
 const SUPABASE_URL = "https://kfzzfjiicoqvirofkvyy.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmenpmamlpY29xdmlyb2Zrdnl5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjcyNjk5NjYsImV4cCI6MjA4Mjg0NTk2Nn0.3Eciwhgr7tY1bT7ixbziaOx-eKGS8rDS58dY365mOVk";
- // replace with your anon key
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmenpmamlpY29xdmlyb2Zrdnl5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjcyNjk5NjYsImV4cCI6MjA4Mjg0NTk2Nn0.3Eciwhgr7tY1bT7ixbziaOx-eKGS8rDS58dY365mOVk"; // replace with your anon key
 
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -22,12 +20,19 @@ const productList = document.getElementById("productList");
 
 /* ================= LOGIN ================= */
 async function login() {
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email: email.value,
-    password: password.value
-  });
-  if (error) return alert("❌ Login failed: " + error.message);
+  const { data: users, error } = await supabase
+    .from('"Users"') // Users table
+    .select("*")
+    .eq("email", email.value)
+    .eq("password", password.value); // simple plaintext password (for demo)
 
+  if (error) return alert("❌ Login failed: " + error.message);
+  if (!users || users.length === 0) return alert("❌ Invalid email or password");
+
+  const user = users[0];
+  if (user.role !== "admin") return alert("❌ You are not authorized");
+
+  alert(`✅ Logged in as ${user.name}`);
   document.getElementById("loginSection").style.display = "none";
   document.getElementById("adminSection").style.display = "block";
   document.getElementById("productSection").style.display = "block";
@@ -36,8 +41,9 @@ async function login() {
 }
 
 /* ================= LOGOUT ================= */
-async function logout() {
-  await supabase.auth.signOut();
+function logout() {
+  email.value = "";
+  password.value = "";
   document.getElementById("loginSection").style.display = "block";
   document.getElementById("adminSection").style.display = "none";
   document.getElementById("productSection").style.display = "none";
@@ -95,14 +101,3 @@ async function deleteProduct(id) {
   if (error) return alert("❌ Delete failed: " + error.message);
   loadProducts();
 }
-
-/* ================= AUTO SESSION ================= */
-window.onload = async () => {
-  const { data: { session } } = await supabase.auth.getSession();
-  if (session) {
-    document.getElementById("loginSection").style.display = "none";
-    document.getElementById("adminSection").style.display = "block";
-    document.getElementById("productSection").style.display = "block";
-    loadProducts();
-  }
-};
