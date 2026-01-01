@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<div class="container">
+
+  <header>
+    <h1>🛠 Product Admin Panel</h1>
+    <p>Supabase Auth-Based Admin</p>
+  </header>
+
+  <!-- LOGIN -->
+  <section class="card" id="loginSection">
+    <h2>Login</h2>
+    <input id="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+  </section>
+
+  <!-- ADD PRODUCT -->
+  <section class="card" id="adminSection" style="display:none;">
+    <h2>Add New Product</h2>
+    <div class="grid">
+      <input id="name" placeholder="Product Name">
+      <input id="short_desc" placeholder="Short Description">
+      <input id="price" type="number" placeholder="Price">
+      <input id="rating" type="number" step="0.1" placeholder="Rating (0–5)">
+      <select id="product_type">
+        <option value="">Product Type</option>
+        <option value="animated-wallpaper">Animated Wallpaper</option>
+        <option value="live-wallpaper">Live Wallpaper</option>
+        <option value="animated-card">Animated Card</option>
+      </select>
+      <input id="image_urls" placeholder="Image URLs (comma separated)">
+      <input id="gumroad_link" placeholder="Gumroad Checkout URL">
+      <input id="tags" placeholder="Tags (comma separated)">
+    </div>
+    <textarea id="full_desc" placeholder="Full Description"></textarea>
+    <button onclick="addProduct()">➕ Add Product</button>
+    <button onclick="logout()">🔒 Logout</button>
+  </section>
+
+  <!-- PRODUCT LIST -->
+  <section class="card" id="productSection" style="display:none;">
+    <h2>Existing Products</h2>
+    <div id="productList" class="list"></div>
+  </section>
+
+</div>
+
+<!-- Supabase JS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Admin JS -->
+<script src="admin.js"></script>
+</body>
+</html>
