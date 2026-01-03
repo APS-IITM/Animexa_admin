@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard - Products</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <header>
+        <h1>PRODUCTS DASHBOARD</h1>
+        <button id="logoutBtn">LOGOUT</button>
+    </header>
+
+    <main>
+        <section class="form-card">
+            <h2>ADD PRODUCT</h2>
+            <form id="productForm">
+                <input type="hidden" id="productId">
+                <input type="text" id="name" placeholder="Product Name" required>
+                <input type="text" id="short_desc" placeholder="Short Description">
+                <textarea id="full_desc" placeholder="Full Description"></textarea>
+                <input type="number" id="price" placeholder="Price" step="0.01">
+                <input type="number" id="rating" placeholder="Rating (0-5)" min="0" max="5" step="0.1">
+                <input type="text" id="category" placeholder="Category">
+                <input type="text" id="product_type" placeholder="Product Type">
+                <input type="text" id="image_url" placeholder="Image URL">
+                <input type="text" id="gumroad_url" placeholder="Gumroad URL">
+                <button type="submit">SAVE PRODUCT</button>
+            </form>
+        </section>
+
+        <section class="table-card">
+            <h2>ALL PRODUCTS</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Category</th>
+                        <th>Rating</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="productsTable">
+                    <tr>
+                        <td colspan="5" style="text-align: center; color: var(--text-secondary);">
+                            No products yet. Add your first product using the form.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>

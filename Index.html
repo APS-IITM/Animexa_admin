@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Animexa Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Premium Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+    <div class="auth-wrapper">
+        <div class="auth-card">
+            <h1>Animexa</h1>
+            <p class="subtitle">Admin Control Panel</p>
+
+            <form id="loginForm">
+                <div class="field">
+                    <input type="email" id="email" required />
+                    <label>Email</label>
+                </div>
+
+                <div class="field password-field">
+                    <input type="password" id="password" required />
+                    <label>Password</label>
+
+                    <!-- Toggle Button -->
+                    <span class="toggle-password" id="togglePassword">
+                        👁️
+                    </span>
+                </div>
+
+
+                <button type="submit">
+                    <span class="btn-text">Sign In</span>
+                    <span class="loader"></span>
+                </button>
+
+                <p class="error" id="errorMsg"></p>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
