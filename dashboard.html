@@ -10,34 +10,68 @@
 </head>
 <body>
     <header>
-        <h1>PRODUCTS DASHBOARD</h1>
+        <h1>🏪 PRODUCTS DASHBOARD</h1>
         <button id="logoutBtn">LOGOUT</button>
     </header>
 
     <main>
         <section class="form-card">
-            <h2>ADD PRODUCT</h2>
+            <h2 id="formTitle">Add Product</h2>
             <form id="productForm">
                 <input type="hidden" id="productId">
-                <input type="text" id="name" placeholder="Product Name" required>
+
+                <input type="text" id="name" placeholder="Product Name *" required>
                 <input type="text" id="short_desc" placeholder="Short Description">
                 <textarea id="full_desc" placeholder="Full Description"></textarea>
-                <input type="number" id="price" placeholder="Price" step="0.01">
+
+                <input type="number" id="price" placeholder="Price (₹)" step="0.01">
                 <input type="number" id="rating" placeholder="Rating (0-5)" min="0" max="5" step="0.1">
-                <input type="text" id="category" placeholder="Category">
-                <input type="text" id="product_type" placeholder="Product Type">
+
+                <!-- Category Dropdown with Add Option -->
+                <div class="form-group-wrapper">
+                    <select id="category" required>
+                        <option value="">Select Category *</option>
+                        <option value="animated">Animated background</option>
+                        <option value="3d">3D live background</option>
+                        <option value="canva">Canva Template</option>
+                        <option value="add-new">+ Add New Category</option>
+                    </select>
+                    <input type="text" id="newCategory" placeholder="Enter new category name" style="display: none;">
+                    <button type="button" id="saveNewCategoryBtn" style="display: none;">Save Category</button>
+                </div>
+
+                <!-- Product Type Dropdown -->
+                <select id="product_type" required>
+                    <option value="">Select Type *</option>
+                    <option value="bundle">Bundle</option>
+                    <option value="individual">Individual</option>
+                </select>
+
+                <!-- License Dropdown -->
+                <select id="license" required>
+                    <option value="">Select License *</option>
+                    <option value="Personal">Personal</option>
+                    <option value="Commercial">Commercial</option>
+                </select>
+
                 <input type="text" id="image_url" placeholder="Image URL">
                 <input type="text" id="gumroad_url" placeholder="Gumroad URL">
+
                 <button type="submit">SAVE PRODUCT</button>
             </form>
+
+            <!-- 3D Canvas for Category Visualization -->
+            <canvas id="canvas3d" style="display: none; margin-top: 20px; border-radius: 8px;"></canvas>
         </section>
 
         <section class="table-card">
-            <h2>ALL PRODUCTS</h2>
+            <h2>All Products</h2>
             <table>
                 <thead>
                     <tr>
-                        <th>Name</th>
+                        <th>Product Name</th>
+                        <th>Type</th>
+                        <th>License</th>
                         <th>Price</th>
                         <th>Category</th>
                         <th>Rating</th>
@@ -46,8 +80,8 @@
                 </thead>
                 <tbody id="productsTable">
                     <tr>
-                        <td colspan="5" style="text-align: center; color: var(--text-secondary);">
-                            No products yet. Add your first product using the form.
+                        <td colspan="7" class="empty-state">
+                            <p>No products yet. Add your first product using the form above.</p>
                         </td>
                     </tr>
                 </tbody>
