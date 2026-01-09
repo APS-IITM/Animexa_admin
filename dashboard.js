@@ -22,6 +22,7 @@ const inputCategory = document.getElementById("category");
 const inputProductType = document.getElementById("product_type");
 const inputLicense = document.getElementById("license");
 const inputVideoUrl = document.getElementById("video_url");
+const inputThumbnailUrl = document.getElementById("thumbnail_url");
 const inputGumroadUrl = document.getElementById("gumroad_url");
 
 const newCategoryInput = document.getElementById("newCategory");
@@ -228,30 +229,37 @@ async function loadProducts() {
         return;
     }
 
-    table.innerHTML = "";
-    data.forEach(p => {
-        const thumbnail = p.video_url || "https://via.placeholder.com/80x60?text=No+Video";
+        table.innerHTML = "";
+        data.forEach(p => {
+            const thumbnail =
+                p.thumbnail_url ||
+                p.video_url ||
+                "https://via.placeholder.com/80x60?text=No+Preview";
 
-        table.innerHTML += `
-      <tr>
-        <td>
-          <div class="product-info">
-            <span class="product-id">${p.id}</span>
-            <span class="product-name">${p.name}</span>
-          </div>
-        </td>
-        <td><img src="${thumbnail}" alt="Video" style="width: 80px; height: 60px; border-radius: 4px; object-fit: cover;"></td>
-        <td>${p.product_type ?? "-"}</td>
-        <td>${p.license ?? "-"}</td>
-        <td>₹${p.price ?? "-"}</td>
-        <td>${p.category ?? "-"}</td>
-        <td>${p.rating ? p.rating + "★" : "-"}</td>
-        <td class="actions">
-          <button class="edit" onclick="editProduct('${p.id}')">Edit</button>
-          <button class="delete" onclick="deleteProduct('${p.id}')">Delete</button>
-        </td>
-      </tr>`;
-    });
+            table.innerHTML += `
+          <tr>
+            <td>
+              <div class="product-info">
+                <span class="product-id">${p.id}</span>
+                <span class="product-name">${p.name}</span>
+              </div>
+            </td>
+            <td>
+              <img src="${thumbnail}" alt="Preview"
+                   style="width: 80px; height: 60px; border-radius: 4px; object-fit: cover;">
+            </td>
+            <td>${p.product_type ?? "-"}</td>
+            <td>${p.license ?? "-"}</td>
+            <td>₹${p.price ?? "-"}</td>
+            <td>${p.category ?? "-"}</td>
+            <td>${p.rating ? p.rating + "★" : "-"}</td>
+            <td class="actions">
+              <button class="edit" onclick="editProduct('${p.id}')">Edit</button>
+              <button class="delete" onclick="deleteProduct('${p.id}')">Delete</button>
+            </td>
+          </tr>`;
+        });
+
 }
 
 // ============================================
@@ -299,8 +307,10 @@ form.addEventListener("submit", async e => {
         product_type: inputProductType.value.trim(),
         license: inputLicense.value.trim(),
         video_url: inputVideoUrl.value.trim() || null,
+        thumbnail_url: inputThumbnailUrl.value.trim() || null,
         gumroad_url: inputGumroadUrl.value.trim() || null
     };
+
 
     let result;
 
@@ -355,7 +365,9 @@ async function editProduct(id) {
         inputProductType.value = data.product_type ?? "";
         inputLicense.value = data.license ?? "";
         inputVideoUrl.value = data.video_url ?? "";
+        inputThumbnailUrl.value = data.thumbnail_url ?? "";
         inputGumroadUrl.value = data.gumroad_url ?? "";
+
 
         productId.value = id;
         formTitle.textContent = `Edit Product (ID: ${id})`;
