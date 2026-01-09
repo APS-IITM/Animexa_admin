@@ -21,7 +21,7 @@ const inputRating = document.getElementById("rating");
 const inputCategory = document.getElementById("category");
 const inputProductType = document.getElementById("product_type");
 const inputLicense = document.getElementById("license");
-const inputImageUrl = document.getElementById("image_url");
+const inputVideoUrl = document.getElementById("video_url");
 const inputGumroadUrl = document.getElementById("gumroad_url");
 
 const newCategoryInput = document.getElementById("newCategory");
@@ -219,17 +219,19 @@ async function loadProducts() {
 
     if (error) {
         console.error(error);
-        table.innerHTML = `<tr><td colspan="7">Error loading products</td></tr>`;
+        table.innerHTML = `<tr><td colspan="8">Error loading products</td></tr>`;
         return;
     }
 
     if (!data || data.length === 0) {
-        table.innerHTML = `<tr><td colspan="7">No products found</td></tr>`;
+        table.innerHTML = `<tr><td colspan="8">No products found</td></tr>`;
         return;
     }
 
     table.innerHTML = "";
     data.forEach(p => {
+        const thumbnail = p.video_url || "https://via.placeholder.com/80x60?text=No+Video";
+
         table.innerHTML += `
       <tr>
         <td>
@@ -238,6 +240,7 @@ async function loadProducts() {
             <span class="product-name">${p.name}</span>
           </div>
         </td>
+        <td><img src="${thumbnail}" alt="Video" style="width: 80px; height: 60px; border-radius: 4px; object-fit: cover;"></td>
         <td>${p.product_type ?? "-"}</td>
         <td>${p.license ?? "-"}</td>
         <td>₹${p.price ?? "-"}</td>
@@ -295,7 +298,7 @@ form.addEventListener("submit", async e => {
         category: inputCategory.value.trim(),
         product_type: inputProductType.value.trim(),
         license: inputLicense.value.trim(),
-        image_url: inputImageUrl.value.trim() || null,
+        video_url: inputVideoUrl.value.trim() || null,
         gumroad_url: inputGumroadUrl.value.trim() || null
     };
 
@@ -351,7 +354,7 @@ async function editProduct(id) {
         inputCategory.value = data.category ?? "";
         inputProductType.value = data.product_type ?? "";
         inputLicense.value = data.license ?? "";
-        inputImageUrl.value = data.image_url ?? "";
+        inputVideoUrl.value = data.video_url ?? "";
         inputGumroadUrl.value = data.gumroad_url ?? "";
 
         productId.value = id;
